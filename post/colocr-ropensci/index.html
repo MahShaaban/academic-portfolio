@@ -1,0 +1,1290 @@
+<!DOCTYPE html><html lang="en-us" >
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.1.0 for Hugo" />
+  
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Mahmoud Ahmed" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="A few months ago, I wasn’t sure what to expect when looking at fluorescence microscopy images in published papers. I looked at the accompanying graph to understand the data or the point the authors were trying to make. Often, the graph represents one or more measures of the so-called co-localization, but I couldn’t figure out how to interpret them. It turned out; reading the images is simple. Cells are simultaneously stained by two dyes (say, red and green) for two different proteins. The color turns yellow in the merged image when the two proteins localize in proximity." />
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/colocr-ropensci/" />
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    <meta name="theme-color" content="#1565c0" />
+  
+
+  
+  
+
+  
+  
+  
+  
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+
+    
+    
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/github.min.css" crossorigin="anonymous" title="hl-light" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" media="print" onload="this.media='all'" disabled>
+        
+      
+    
+
+    
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" integrity="sha512-1xoFisiGdy9nvho8EgXuXvnpR5GAMSjFwp40gSRE3NwdUdIMIKuPa7bqoUhLD0O/5tPNhteAsE5XyyMi5reQVA==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.9a66e344a68eb664b392d406a3f80726.css" />
+
+  
+
+
+
+  
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+    <link rel="manifest" href="/index.webmanifest" />
+  
+
+  <link rel="icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_32x32_fill_lanczos_center_2.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_180x180_fill_lanczos_center_2.png" />
+
+  <link rel="canonical" href="/post/colocr-ropensci/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image" />
+  
+  <meta property="og:site_name" content="Academic" />
+  <meta property="og:url" content="/post/colocr-ropensci/" />
+  <meta property="og:title" content="Co-localization analysis of fluorescence microscopy images | Academic" />
+  <meta property="og:description" content="A few months ago, I wasn’t sure what to expect when looking at fluorescence microscopy images in published papers. I looked at the accompanying graph to understand the data or the point the authors were trying to make. Often, the graph represents one or more measures of the so-called co-localization, but I couldn’t figure out how to interpret them. It turned out; reading the images is simple. Cells are simultaneously stained by two dyes (say, red and green) for two different proteins. The color turns yellow in the merged image when the two proteins localize in proximity." /><meta property="og:image" content="/post/colocr-ropensci/featured.png" />
+    <meta property="twitter:image" content="/post/colocr-ropensci/featured.png" /><meta property="og:locale" content="en-us" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2018-11-27T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2018-11-27T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/post/colocr-ropensci/"
+  },
+  "headline": "Co-localization analysis of fluorescence microscopy images",
+  
+  "image": [
+    "/post/colocr-ropensci/featured.png"
+  ],
+  
+  "datePublished": "2018-11-27T00:00:00Z",
+  "dateModified": "2018-11-27T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Mahmoud Ahmed"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Academic",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_192x192_fill_lanczos_center_2.png"
+    }
+  },
+  "description": "A few months ago, I wasn’t sure what to expect when looking at fluorescence microscopy images in published papers. I looked at the accompanying graph to understand the data or the point the authors were trying to make. Often, the graph represents one or more measures of the so-called co-localization, but I couldn’t figure out how to interpret them. It turned out; reading the images is simple. Cells are simultaneously stained by two dyes (say, red and green) for two different proteins. The color turns yellow in the merged image when the two proteins localize in proximity."
+}
+</script>
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+  <title>Co-localization analysis of fluorescence microscopy images | Academic</title>
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="278e6e4af75b46d2a9bff7d39fc48fcd" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.226a9011996d125bf3fe4a5f22353a49.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container-xl">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Academic</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Academic</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#talks"><span>Talks</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#featured"><span>Publications</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<div class="article-container pt-3">
+  <h1>Co-localization analysis of fluorescence microscopy images</h1>
+
+  
+
+  
+
+
+<div class="article-metadata">
+
+  
+  
+  
+  
+  <div>
+    
+
+  <span >
+      <a href="/author/mahmoud-ahmed/">Mahmoud Ahmed</a></span>
+  </div>
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Nov 27, 2018
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    6 min read
+  </span>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+
+</div>
+
+  
+
+
+
+
+
+</div>
+
+
+<div class="article-header container featured-image-wrapper mt-4 mb-4" style="max-width: 906px; max-height: 781px;">
+  <div style="position: relative">
+    <img src="/post/colocr-ropensci/featured.png" alt="" class="featured-image">
+    
+  </div>
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <p>A few months ago, I wasn’t sure what to expect when looking at fluorescence microscopy images in published papers. I looked at the accompanying graph to understand the data or the point the authors were trying to make. Often, the graph represents one or more measures of the so-called co-localization, but I couldn’t figure out how to interpret them. It turned out; reading the images is simple. Cells are simultaneously stained by two dyes (say, red and green) for two different proteins. The color turns yellow in the merged image when the two proteins localize in proximity.</p>
+<p>A recent publication from our laboratory included microscopy images and a quantification graph. The standard analysis protocol is to use ImageJ with a specialized plug-in for the co-localization analysis such as coloc2 or Fiji. The images were processed one at a time; subtracting the background, selecting regions of interest and calculating the co-localization statistics. This work was done manually and repeated with minor changes in the parameters each time. At the end, there was no way to make this process reproducible, and we included only the final output in an otherwise fully reproducible article.</p>
+<p>For those two specific reasons; the need for manual work and the lack of reproducibility, I thought it would be great if I could do this analysis in R. There are several R packages for image processing such as EBImage, imager and magick. These packages provided the functionality needed for conducting this analysis. So I put the pieces together in an R package to simplify this analysis for my future self and for others who might find it useful. This is colocr, a simple R package for conducting co-localization analysis of fluorescence microscopy images. In particular, it semi-automates the selections of regions of interest-arguably the most time-consuming step- and comes with a Shiny app for visually comparing the outputs of different parameters before writing a final script.</p>
+<h2 id="how-would-have-we-done-it-differently">How would have we done it differently?</h2>
+<p>In this recent article I referred to earlier, we assessed the co-localization of several proteins with RKIP (Raf-kinas inhibitor protein) in DU145 prostate cancer cell line. For each of these proteins, we generated multiple frames, a hundred in total. We then processed the images one by one and repeated the process with each minor change in the parameters. Now we can use colocr, in just a few lines of code, to apply the same analysis.</p>
+<p>A selection of the images were presented in the article in a similar figure.</p>
+<p>image</p>
+<p>We can calculate the Pearson’s Correlation Coefficients (PCC) of multiple images at once using the following chunk of code.</p>
+<pre><code class="language-r"># load required libraries
+library(tidyverse)
+library(colocr)
+
+# load images
+fls &lt;- list.files('images', pattern = '*.jpg', recursive = TRUE)
+
+# apply co-localization test
+tst &lt;- image_load(fls) %&gt;%
+  roi_select(threshold = 90, n = 3) %&gt;%
+  roi_test()
+</code></pre>
+<p>And the results can be visualized in a graph.</p>
+<p>image</p>
+<p>The graph shows the co-localization statistics (PCC) for RKIP and six other proteins (x-axis). The pixel intensity of the channel of each protein (red) and RKIP (green) in three regions of interest from multiple images were used to calculate the PCC. In all cases, the correlations were above 0.75 with reasonable variance. This means a high degree of co-localization between RKIP and the six target proteins.</p>
+<p>The following code is to generate the graph.</p>
+<pre><code class="language-r"># load required libraries
+library(tidyverse)
+
+# make the graph of calculated correlations
+names(tst) &lt;- str_split(fls, pattern = '/', simplify = TRUE)[, 1]
+
+bind_rows(tst, .id = 'protein') %&gt;%
+  group_by(protein) %&gt;%
+  mutate(ave = mean(pcc),
+         sd = sd(pcc),
+         upper = ave + sd,
+         lower = ave - sd) %&gt;%
+  ggplot(aes(x = protein, y = pcc)) +
+  geom_jitter() +
+  geom_point(aes(y = ave), color = 'red') +
+  geom_linerange(aes(ymax = upper, ymin = lower), color = 'red') +
+  lims(y = c(0, 1.1)) +
+  labs(x = '', y = &quot;Pearson's Correlation Coefficient (PCC)&quot;) +
+  theme_bw()
+</code></pre>
+<p>While developing colocr, I focused on breaking down the steps of the analysis into intuitive pieces. Hopefully, in a way that the potential user, or “myself in a few months”, can understand easily. By keeping the number of the functions limited, the inputs and the outputs consistent and making things visual as much as possible, I hope using the package needs less investment by the user. I hope biologists who are not familiar with R can still find this work useful. One thing helped me organize and iterate on the code. This was developing a Shiny app as an interface to the package.</p>
+<h2 id="developing-a-shiny-app-in-an-r-package">Developing a Shiny app in an R package</h2>
+<p>At first, I thought of adding a Shiny app as an extra feature for users who might need it. I quickly realized that for this use case, selecting regions of interest might require trial-and-error on the side of the user to arrive at suitable parameters for the selection. Having to develop the app forced me to think about organizing the functions, their input and output in a certain way. Namely, mapping the functions to the steps of the analysis that the user has to think about and making visual output a priority. Finally, testing the app exposed errors in the intermediates which might have been buried in otherwise seemingly fine R objects. Overall, I learned a thing or two about writing Shiny apps to go with R packages when possible even if it won’t make the cut in the release.</p>
+<ul>
+<li>I found it useful to work on the app as early as possible and improving it side by side with the core functionality. As explained earlier, this helped me to think about the inputs and the output from a user’s perspective.</li>
+<li>I learnt to isolate the source code for the app from that of the package functions as much as possible. One may host the app code in a separate repository and include it in the project as a git submodule. Some might find this necessary, but I found it easier this way to keep track of the changes in the app and testing it on Travis.</li>
+</ul>
+<h2 id="submitting-r-packages-for-reviewing-by-ropensci">Submitting R packages for reviewing by rOpenSci</h2>
+<p>colocr was my second submission to rOpenSci. My first submission was a package called cRegulome. In both cases, I had positive experiences. So I would like to thank the rOpenSci editor, the reviewers (Hao Zhu, Sean Hughes) and Jeroen Ooms who helped us to resolve issues related to running the package on Windows. At a risk of an understatement, here are three benefits I got from submitting my packages to rOpenSci which others might find encouraging doing the same.</p>
+<ul>
+<li>Reviewing the source could at an early stage help to spot mistakes and introducing improvement to the code that might escape the authors themselves.</li>
+<li>Often the editor and the reviewers are experts in R and the subject matter, so they can offer ideas and suggestion to improve the design of the package. Adding to being an early test users who provided useful insights.</li>
+<li>Writing and distributing code might not be everyone’s strongest skill. And certain aspects of it might be challenging. The rOpenSci team provide support during the process I found encouraging.</li>
+</ul>
+<h2 id="things-to-improve">Things to improve</h2>
+<p>I am working on improving the performance and adding more features. I welcome all contributions. Two areas of improvement are</p>
+<ul>
+<li>
+<p>Change dependency from imager to magick to take advantage of the well tested magick classes and functionality. issue #4.</p>
+</li>
+<li>
+<p>Add a feature to allow for adjusting for artifacts in the images such as luminescence, which might affect the final calculations. issue #5.</p>
+</li>
+</ul>
+<h2 id="other-resources">Other resources</h2>
+<ul>
+<li>colocr source code on GitHub, here</li>
+<li>The Shiny app, here</li>
+<li>The package vignette, here</li>
+</ul>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/academic/">Academic</a>
+  
+  <a class="badge badge-light" href="/tag/image-analysis/">Image-analysis</a>
+  
+  <a class="badge badge-light" href="/tag/r-package/">R-package</a>
+  
+  <a class="badge badge-light" href="/tag/ropenscie/">ROpenScie</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=/post/colocr-ropensci/&amp;text=Co-localization%20analysis%20of%20fluorescence%20microscopy%20images" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=/post/colocr-ropensci/&amp;t=Co-localization%20analysis%20of%20fluorescence%20microscopy%20images" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Co-localization%20analysis%20of%20fluorescence%20microscopy%20images&amp;body=/post/colocr-ropensci/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=/post/colocr-ropensci/&amp;title=Co-localization%20analysis%20of%20fluorescence%20microscopy%20images" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Co-localization%20analysis%20of%20fluorescence%20microscopy%20images%20/post/colocr-ropensci/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=/post/colocr-ropensci/&amp;title=Co-localization%20analysis%20of%20fluorescence%20microscopy%20images" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <img class="avatar mr-3 avatar-circle" src="/author/mahmoud-ahmed/avatar_hu004710e9edca12045f71f1fbfe937db3_160423_270x270_fill_q75_lanczos_center.jpg" alt="Mahmoud Ahmed">
+    
+
+    <div class="media-body">
+      <h5 class="card-title">Mahmoud Ahmed</h5>
+      <h6 class="card-subtitle">Postdoc</h6>
+      <p class="card-text">I use public high-throughput data to learn about the process of autophagy. I build open source tools for managing data in my lab, mainly R packages, and shiny applications. matter.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=zIaFTBQAAAAJ" target="_blank" rel="noopener">
+        <i class="fas fa-graduation-cap"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/MahShaaban" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/mahshaaban" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/report-medium/">Report in Confidence</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+  
+
+  <p class="powered-by">
+    
+  </p>
+
+  
+  
+
+
+
+
+
+
+  <p class="powered-by">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-modules" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      
+
+      
+      
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js" integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/r.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/python.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/latex.min.js"></script>
+        
+      
+
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js" integrity="sha512-SeiQaaDh73yrb56sTW/RgVdi/mMqNeM2oBwubFHagc5BkixSpP1fvqF47mKzPGWYSSy4RwbBunrJBQ4Co8fRWA==" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+      
+      <script id="search-hit-fuse-template" type="text/x-template">
+        <div class="search-hit" id="summary-{{key}}">
+          <div class="search-hit-content">
+            <div class="search-hit-name">
+              <a href="{{relpermalink}}">{{title}}</a>
+              <div class="article-metadata search-hit-type">{{type}}</div>
+              <p class="search-hit-description">{{snippet}}</p>
+            </div>
+          </div>
+        </div>
+      </script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    <script src="/js/bootstrap.bundle.min.6aed84840afc03ab4d5750157f69c120.js"></script>
+
+    
+    
+      
+      
+      
+      
+      
+      
+      
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/en/js/wowchemy.min.b61a8f62b6e5c0cd322c8158c5b5dfb6.js"></script>
+
+    
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+
+</body>
+</html>

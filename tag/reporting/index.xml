@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>reporting | Academic</title>
+    <link>/tag/reporting/</link>
+      <atom:link href="/tag/reporting/index.xml" rel="self" type="application/rss+xml" />
+    <description>reporting</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 27 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_2.png</url>
+      <title>reporting</title>
+      <link>/tag/reporting/</link>
+    </image>
+    
+    <item>
+      <title>Report in Confidence</title>
+      <link>/post/report-medium/</link>
+      <pubDate>Tue, 27 Nov 2018 00:00:00 +0000</pubDate>
+      <guid>/post/report-medium/</guid>
+      <description>&lt;p&gt;Scientists are skeptical by nature. A scientist would pay all effort while formulating a hypothesis, setting assumptions, collecting data, analyzing it, and reporting results. Sometimes in practice, this chain of careful skeptical steps breaks, and at certain steps more than the others. Scientific literature might be less attentive when quantifying and reporting uncertainty associated with scientific results. This could be due to the rush or the lack of a proper understanding of the statistical methods. And more often, due to the over usage of some convenient methods but not others.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;p-value&lt;/em&gt; ignores the effect size and gets smaller as a consequence of increasing the sample size&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;p-values&lt;/em&gt; dominate the scientific literature as a statistical summary, reported at least once in 96% of the literature (Kyriacou 2016)⁠. a &lt;em&gt;p-value&lt;/em&gt; is a probability of observing data as extreme as a test statistics when the null hypothesis is true. When this probability is very small, smaller than a predefined value, we can reject the &lt;em&gt;null&lt;/em&gt; Hypothesis and consider the &lt;em&gt;alternative&lt;/em&gt; true with a certain power.&lt;/p&gt;
+&lt;p&gt;One major flaw in reporting &lt;em&gt;p-value&lt;/em&gt; as a sole statistical summary is that it ignores the effect size. That is the difference among averages of, say, two comparison groups in a study (&lt;em&gt;X&lt;/em&gt; &amp;amp; &lt;em&gt;Y&lt;/em&gt;). When used in hypothesis testing, &lt;em&gt;p-value&lt;/em&gt; is concerned about whether there is a difference between these averages in absolute value rather than the size of this difference (&lt;em&gt;Y&lt;/em&gt; — &lt;em&gt;X&lt;/em&gt;). We reject the &lt;em&gt;null&lt;/em&gt; hypothesis if (&lt;em&gt;Y&lt;/em&gt; ≠ &lt;em&gt;X&lt;/em&gt;) and we fail to reject if (&lt;em&gt;Y&lt;/em&gt; =&lt;em&gt;X&lt;/em&gt;) regardless the size of (&lt;em&gt;Y&lt;/em&gt; — &lt;em&gt;X&lt;/em&gt;) is. Here, there is a missing piece of information that we usually have to look for somewhere else in a scientific report. To get a sense of the difference between the study groups, we look at other statistical summaries like averages (mean) and standard error (SE) or standard error of the mean (SEM).&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;p-value&lt;/em&gt; becomes smaller as a consequence of increasing the sample size (&lt;em&gt;N&lt;/em&gt;) as its denominator includes (√&lt;em&gt;N&lt;/em&gt;). However, a smaller &lt;em&gt;p-value&lt;/em&gt; doesn’t guarantee a better approximation of the truth but rather the a lower probability of observing the &lt;em&gt;null&lt;/em&gt;. Moreover, with large samples we can detect a statistical significance of a very small size which is of no scientific meaning.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The cut-off 0.05 is arbitrary and &lt;em&gt;p-value&lt;/em&gt; is random in multiple testing&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The decision of whether to reject or fail to reject the &lt;em&gt;null&lt;/em&gt; is depending on a predefined cut-off or a level of significance. Usually, we use either 0.01 or 0.05. There is nothing really special about those two numbers except for they appeared in the early papers used null hypothesis significance testing (NHST).&lt;/p&gt;
+&lt;p&gt;Following the definition of &lt;em&gt;p-value&lt;/em&gt; in the context of the central limit theorem (CLT), &lt;em&gt;p-value&lt;/em&gt; is the probability that a normally distributed random variable is larger, in absolute value, than the observed &lt;em&gt;t&lt;/em&gt;test. So &lt;em&gt;p-value&lt;/em&gt; itself is a random variable because it is dependent on a random variable. When applying multiple tests or measuring many features we get many &lt;em&gt;false positives&lt;/em&gt; because of this randomness. So we should use corrections like Bonferroni (Bonferroni 1936)⁠ and don’t depend on even very small &lt;em&gt;p-values.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Confidence intervals provide more information and become more accurate with increasing sample sizes&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Confidence interval is a random interval with, say, a 95% probability of falling on the estimated parameter, like the average (Irizarry and Love 2015)⁠. Unlike &lt;em&gt;p-value&lt;/em&gt;, confidence interval includes the observed difference, the effect size and provides a measure of uncertainty. We can obtain the same information provided by a &lt;em&gt;p-value&lt;/em&gt; using the confidence interval. In a &lt;em&gt;t&lt;/em&gt;test, we look for whether the averages of two groups are equals or not, so when equals, the difference will be 0. A 95% confidence interval that includes 0 implies the &lt;em&gt;p-value&lt;/em&gt; should be less than 0.05.&lt;/p&gt;
+&lt;p&gt;The width of the interval reflects the effect size and this gets more accurate with increasing the sample size unlike &lt;em&gt;p-values&lt;/em&gt; which become smaller when the &lt;em&gt;null&lt;/em&gt; is not true as consequence. Because confidence intervals summarize the variability of the estimated value, the average, a narrow interval means a larger effect size and &lt;em&gt;vice versa&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;To sum, confidence interval provides more information than &lt;em&gt;p-value&lt;/em&gt; and gets more accurate with increasing the sample size. Therefore, we recommended using confidence interval as a statistical summary.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Bonferroni, C.E. 1936. “Teoria Statistica Delle Classi E Calcolo Delle Probabilita.”&lt;em&gt;Pubblicazioni R Istit. Super. Sci. Econ. Commer&lt;/em&gt; 8: 3–62.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Irizarry, Rafael A, and Michael I Love. 2015. &lt;em&gt;Data Analysis for the Life Sciences&lt;/em&gt;. LeanPub.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Kyriacou, DN. 2016. “The Enduring Evolution of the P Value.” &lt;em&gt;Jama&lt;/em&gt; 315(11): 1113–15.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

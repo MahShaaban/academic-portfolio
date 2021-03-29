@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Autophagy | Academic</title>
+    <link>/tag/autophagy/</link>
+      <atom:link href="/tag/autophagy/index.xml" rel="self" type="application/rss+xml" />
+    <description>Autophagy</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 27 Apr 2016 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_2.png</url>
+      <title>Autophagy</title>
+      <link>/tag/autophagy/</link>
+    </image>
+    
+    <item>
+      <title>Autophagy in Fat Cell Differentiation</title>
+      <link>/project/adipocyte-autophagy/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      <guid>/project/adipocyte-autophagy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Autophagy in Fat Cell Differentiation</title>
+      <link>/project/transcription-regulation/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      <guid>/project/transcription-regulation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RKIP-dependent autophagy process</title>
+      <link>/project/rkip-cancer/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      <guid>/project/rkip-cancer/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

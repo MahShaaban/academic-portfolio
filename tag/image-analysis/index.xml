@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Image-analysis | Academic</title>
+    <link>/tag/image-analysis/</link>
+      <atom:link href="/tag/image-analysis/index.xml" rel="self" type="application/rss+xml" />
+    <description>Image-analysis</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 27 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_2.png</url>
+      <title>Image-analysis</title>
+      <link>/tag/image-analysis/</link>
+    </image>
+    
+    <item>
+      <title>Co-localization analysis of fluorescence microscopy images</title>
+      <link>/post/colocr-ropensci/</link>
+      <pubDate>Tue, 27 Nov 2018 00:00:00 +0000</pubDate>
+      <guid>/post/colocr-ropensci/</guid>
+      <description>&lt;p&gt;A few months ago, I wasn’t sure what to expect when looking at fluorescence microscopy images in published papers. I looked at the accompanying graph to understand the data or the point the authors were trying to make. Often, the graph represents one or more measures of the so-called co-localization, but I couldn’t figure out how to interpret them. It turned out; reading the images is simple. Cells are simultaneously stained by two dyes (say, red and green) for two different proteins. The color turns yellow in the merged image when the two proteins localize in proximity.&lt;/p&gt;
+&lt;p&gt;A recent publication from our laboratory included microscopy images and a quantification graph. The standard analysis protocol is to use ImageJ with a specialized plug-in for the co-localization analysis such as coloc2 or Fiji. The images were processed one at a time; subtracting the background, selecting regions of interest and calculating the co-localization statistics. This work was done manually and repeated with minor changes in the parameters each time. At the end, there was no way to make this process reproducible, and we included only the final output in an otherwise fully reproducible article.&lt;/p&gt;
+&lt;p&gt;For those two specific reasons; the need for manual work and the lack of reproducibility, I thought it would be great if I could do this analysis in R. There are several R packages for image processing such as EBImage, imager and magick. These packages provided the functionality needed for conducting this analysis. So I put the pieces together in an R package to simplify this analysis for my future self and for others who might find it useful. This is colocr, a simple R package for conducting co-localization analysis of fluorescence microscopy images. In particular, it semi-automates the selections of regions of interest-arguably the most time-consuming step- and comes with a Shiny app for visually comparing the outputs of different parameters before writing a final script.&lt;/p&gt;
+&lt;h2 id=&#34;how-would-have-we-done-it-differently&#34;&gt;How would have we done it differently?&lt;/h2&gt;
+&lt;p&gt;In this recent article I referred to earlier, we assessed the co-localization of several proteins with RKIP (Raf-kinas inhibitor protein) in DU145 prostate cancer cell line. For each of these proteins, we generated multiple frames, a hundred in total. We then processed the images one by one and repeated the process with each minor change in the parameters. Now we can use colocr, in just a few lines of code, to apply the same analysis.&lt;/p&gt;
+&lt;p&gt;A selection of the images were presented in the article in a similar figure.&lt;/p&gt;
+&lt;p&gt;image&lt;/p&gt;
+&lt;p&gt;We can calculate the Pearson’s Correlation Coefficients (PCC) of multiple images at once using the following chunk of code.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# load required libraries
+library(tidyverse)
+library(colocr)
+
+# load images
+fls &amp;lt;- list.files(&#39;images&#39;, pattern = &#39;*.jpg&#39;, recursive = TRUE)
+
+# apply co-localization test
+tst &amp;lt;- image_load(fls) %&amp;gt;%
+  roi_select(threshold = 90, n = 3) %&amp;gt;%
+  roi_test()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And the results can be visualized in a graph.&lt;/p&gt;
+&lt;p&gt;image&lt;/p&gt;
+&lt;p&gt;The graph shows the co-localization statistics (PCC) for RKIP and six other proteins (x-axis). The pixel intensity of the channel of each protein (red) and RKIP (green) in three regions of interest from multiple images were used to calculate the PCC. In all cases, the correlations were above 0.75 with reasonable variance. This means a high degree of co-localization between RKIP and the six target proteins.&lt;/p&gt;
+&lt;p&gt;The following code is to generate the graph.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# load required libraries
+library(tidyverse)
+
+# make the graph of calculated correlations
+names(tst) &amp;lt;- str_split(fls, pattern = &#39;/&#39;, simplify = TRUE)[, 1]
+
+bind_rows(tst, .id = &#39;protein&#39;) %&amp;gt;%
+  group_by(protein) %&amp;gt;%
+  mutate(ave = mean(pcc),
+         sd = sd(pcc),
+         upper = ave + sd,
+         lower = ave - sd) %&amp;gt;%
+  ggplot(aes(x = protein, y = pcc)) +
+  geom_jitter() +
+  geom_point(aes(y = ave), color = &#39;red&#39;) +
+  geom_linerange(aes(ymax = upper, ymin = lower), color = &#39;red&#39;) +
+  lims(y = c(0, 1.1)) +
+  labs(x = &#39;&#39;, y = &amp;quot;Pearson&#39;s Correlation Coefficient (PCC)&amp;quot;) +
+  theme_bw()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;While developing colocr, I focused on breaking down the steps of the analysis into intuitive pieces. Hopefully, in a way that the potential user, or “myself in a few months”, can understand easily. By keeping the number of the functions limited, the inputs and the outputs consistent and making things visual as much as possible, I hope using the package needs less investment by the user. I hope biologists who are not familiar with R can still find this work useful. One thing helped me organize and iterate on the code. This was developing a Shiny app as an interface to the package.&lt;/p&gt;
+&lt;h2 id=&#34;developing-a-shiny-app-in-an-r-package&#34;&gt;Developing a Shiny app in an R package&lt;/h2&gt;
+&lt;p&gt;At first, I thought of adding a Shiny app as an extra feature for users who might need it. I quickly realized that for this use case, selecting regions of interest might require trial-and-error on the side of the user to arrive at suitable parameters for the selection. Having to develop the app forced me to think about organizing the functions, their input and output in a certain way. Namely, mapping the functions to the steps of the analysis that the user has to think about and making visual output a priority. Finally, testing the app exposed errors in the intermediates which might have been buried in otherwise seemingly fine R objects. Overall, I learned a thing or two about writing Shiny apps to go with R packages when possible even if it won’t make the cut in the release.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;I found it useful to work on the app as early as possible and improving it side by side with the core functionality. As explained earlier, this helped me to think about the inputs and the output from a user’s perspective.&lt;/li&gt;
+&lt;li&gt;I learnt to isolate the source code for the app from that of the package functions as much as possible. One may host the app code in a separate repository and include it in the project as a git submodule. Some might find this necessary, but I found it easier this way to keep track of the changes in the app and testing it on Travis.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;submitting-r-packages-for-reviewing-by-ropensci&#34;&gt;Submitting R packages for reviewing by rOpenSci&lt;/h2&gt;
+&lt;p&gt;colocr was my second submission to rOpenSci. My first submission was a package called cRegulome. In both cases, I had positive experiences. So I would like to thank the rOpenSci editor, the reviewers (Hao Zhu, Sean Hughes) and Jeroen Ooms who helped us to resolve issues related to running the package on Windows. At a risk of an understatement, here are three benefits I got from submitting my packages to rOpenSci which others might find encouraging doing the same.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Reviewing the source could at an early stage help to spot mistakes and introducing improvement to the code that might escape the authors themselves.&lt;/li&gt;
+&lt;li&gt;Often the editor and the reviewers are experts in R and the subject matter, so they can offer ideas and suggestion to improve the design of the package. Adding to being an early test users who provided useful insights.&lt;/li&gt;
+&lt;li&gt;Writing and distributing code might not be everyone’s strongest skill. And certain aspects of it might be challenging. The rOpenSci team provide support during the process I found encouraging.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;things-to-improve&#34;&gt;Things to improve&lt;/h2&gt;
+&lt;p&gt;I am working on improving the performance and adding more features. I welcome all contributions. Two areas of improvement are&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Change dependency from imager to magick to take advantage of the well tested magick classes and functionality. issue #4.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Add a feature to allow for adjusting for artifacts in the images such as luminescence, which might affect the final calculations. issue #5.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;other-resources&#34;&gt;Other resources&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;colocr source code on GitHub, here&lt;/li&gt;
+&lt;li&gt;The Shiny app, here&lt;/li&gt;
+&lt;li&gt;The package vignette, here&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

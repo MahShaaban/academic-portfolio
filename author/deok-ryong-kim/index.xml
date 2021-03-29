@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Deok Ryong Kim | Academic</title>
+    <link>/author/deok-ryong-kim/</link>
+      <atom:link href="/author/deok-ryong-kim/index.xml" rel="self" type="application/rss+xml" />
+    <description>Deok Ryong Kim</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 04 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_2.png</url>
+      <title>Deok Ryong Kim</title>
+      <link>/author/deok-ryong-kim/</link>
+    </image>
+    
+    <item>
+      <title>Curated gene expression dataset of differentiating 3T3-L1 adipocytes under pharmacological and genetic perturbations</title>
+      <link>/publication/curated-perturbed/</link>
+      <pubDate>Sun, 04 Oct 2020 00:00:00 +0000</pubDate>
+      <guid>/publication/curated-perturbed/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Integrating binding and expression data to predict transcription factors combined function</title>
+      <link>/publication/target-ranking/</link>
+      <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
+      <guid>/publication/target-ranking/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
