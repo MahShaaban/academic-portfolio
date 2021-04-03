@@ -23,15 +23,21 @@ organizations:
   url: https://eng.gnu.ac.kr
 role: Postdoc
 social:
-- icon: graduation-cap
-  icon_pack: fas
+- icon: google-scholar
+  icon_pack: ai
   link: https://scholar.google.com/citations?user=zIaFTBQAAAAJ
+- icon: researchgate
+  icon_pack: ai
+  link: https://www.researchgate.net/profile/Mahmoud-Ahmed-118
+- icon: orcid
+  icon_pack: ai
+  link: https://orcid.org/0000-0002-4377-6541
+- icon: publons
+  icon_pack: ai
+  link: https://publons.com/researcher/3267326/mahmoud-ahmed/
 - icon: github
   icon_pack: fab
   link: https://github.com/MahShaaban
-- icon: linkedin
-  icon_pack: fab
-  link: https://www.linkedin.com/mahshaaban
 superuser: true
 title: Mahmoud Ahmed
 ---
