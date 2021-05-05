@@ -23,7 +23,7 @@ links:
   url: ''
 location: Virtual
 projects:
-- internal-project
+- transcription-regulation
 publishDate: "2021-02-27T10:30:00Z"
 slides: ""
 summary: ""

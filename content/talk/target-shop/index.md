@@ -23,7 +23,7 @@ links:
   url: https://twitter.com/search?q=%23EuroBioc2020
 location: Virtual
 projects:
-- internal-project
+- transcription-regulation
 publishDate: "2020-12-17T18:15:00Z"
 slides: ""
 summary: ""
